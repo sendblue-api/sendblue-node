@@ -1,6 +1,6 @@
 {
-  "name": "sendblue-node",
-  "version": "0.1.0",
+  "name": "sendblue",
+  "version": "1.1.1",
   "description": "A tiny client module for the Sendblue API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
