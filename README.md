@@ -61,4 +61,4 @@ const sendblue = new Sendblue(SENDBLUE_API_KEY, SENDBLUE_API_SECRET)
 
 ## Hint
 
-You can get free api keys for testing & hobby purposes by emailing Sendblue
+You can get free api keys for testing & hobby purposes by emailing the team
