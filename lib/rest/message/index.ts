@@ -13,11 +13,15 @@ export class Messages {
   constructor (private client: SendblueClient) {}
 
   async sendMessage (options: MessageOptions) {
-    const response = await this.client.request({
+    const responseData = await this.client.request({
       method: 'POST',
       url: '/api/send-message',
       data: options
     })
-    return MessageImpl.from(response.data)
+
+    if (this.client.logLevel === 'debug')
+      console.log('Response:', responseData)
+
+    return MessageImpl.from(responseData)
   }
 }

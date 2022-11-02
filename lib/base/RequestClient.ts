@@ -12,6 +12,7 @@ export interface RequestClientOptions {
   maxTotalSockets?: number
   maxFreeSockets?: number
   scheduling?: 'fifo' | 'lifo'
+  logLevel?: 'debug' | 'info' | 'warn' | 'error'
 }
 
 export interface RequestClientRequestOptions {
@@ -23,9 +24,11 @@ export class RequestClient {
   agentOpts: AgentOptions
   agent: Agent
   axios: AxiosInstance
+  logLevel: string
 
   constructor (opts: RequestClientOptions, apiKey: string, apiSecret: string) {
     this.defaultTimeout = opts.timeout || DEFAULT_TIMEOUT
+    this.logLevel = opts.logLevel || 'info'
 
     this.agentOpts = {
       keepAlive: opts.keepAlive || false,
@@ -39,7 +42,8 @@ export class RequestClient {
     this.agent = new Agent(this.agentOpts)
 
     this.axios = axios.create({
-      httpsAgent: this.agent
+      httpsAgent: this.agent,
+      baseURL: 'https://api.sendblue.co'
     })
     this.axios.defaults.headers.post['Content-Type'] = DEFAULT_CONTENT_TYPE
     this.axios.defaults.headers.post['sb-api-key-id'] = apiKey
@@ -49,6 +53,7 @@ export class RequestClient {
   async request (opts: AxiosRequestConfig & RequestClientRequestOptions) {
     const options: AxiosRequestConfig = {
       method: opts.method,
+      baseURL: opts.baseURL|| this.axios.defaults.baseURL,
       url: opts.url,
       headers: opts.headers,
       params: opts.params,
@@ -60,7 +65,7 @@ export class RequestClient {
       }
     }
 
-    if (opts.logLevel === 'debug') {
+    if (opts.logLevel === 'debug' || this.logLevel === 'debug') {
       this.logRequest(options)
     }
 
@@ -75,7 +80,7 @@ export class RequestClient {
       return response.data
     } catch (err) {
       if ((err as any).response) {
-        throw new Error((err as any).response.data)
+        throw new Error(JSON.stringify((err as any).response.data, null, 2))
       } else {
         throw new Error((err as any).message)
       }
@@ -94,7 +99,7 @@ export class RequestClient {
 
   logRequest (options: AxiosRequestConfig) {
     console.log('-- BEGIN Sendblue API Request --')
-    console.log(`${options.method} ${options.url}`)
+    console.log(`${options.method} ${options.baseURL}${options.url}`)
 
     if (options.params) {
       console.log('Querystring:')

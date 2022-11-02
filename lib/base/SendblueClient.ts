@@ -9,20 +9,27 @@ import {
 
 export interface SendblueClientOptions {
   axiosClientOptions?: RequestClientOptions
+  logLevel?: 'debug' | 'info' | 'warn' | 'error'
 }
 
 export class SendblueClient {
   axiosClient: RequestClient
   groups: Groups
   messages: Messages
+  logLevel: 'debug' | 'info' | 'warn' | 'error' = 'info'
 
   constructor (
     apiKey: string,
     apiSecret: string,
     options: SendblueClientOptions
   ) {
+    if (options.logLevel !== options?.axiosClientOptions?.logLevel) {
+      if (!options.axiosClientOptions) options.axiosClientOptions = {}
+      options.axiosClientOptions.logLevel = options.logLevel
+    }
+    this.logLevel = options.logLevel || 'info'
     this.axiosClient = new RequestClient(
-      options.axiosClientOptions || {},
+      options?.axiosClientOptions || {},
       apiKey,
       apiSecret
     )
