@@ -1,8 +1,12 @@
-# openai-api
+# Sendblue API
 
 ## Overview
 
 This package is a node.js wrapper for the Sendblue API. It provides a simple interface for sending and receiving messages.
+
+## Prerequisites
+
+You will need to get API keys by signing up for a Sendblue account. You can do so [here](https://sendblue.co/).
 
 ## Installation
 
@@ -54,3 +58,7 @@ const sendblue = new Sendblue(SENDBLUE_API_KEY, SENDBLUE_API_SECRET)
   console.log(response)
 })()
 ```
+
+## Hint
+
+You can get free api keys for testing & hobby purposes by emailing Sendblue

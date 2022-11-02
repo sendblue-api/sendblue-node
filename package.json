@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "prepublish": "npm run build",
+    "prepublish": "npm version patch && npm run build",
     "build": "tsc",
     "test": "mocha --use_strict"
   },
