@@ -23,13 +23,13 @@
   "author": "Nikita Jerschow",
   "contributors": [
     {
-      "url": "https://github.com/Njerschow"
+      "url": "https://github.com/jerschow"
     }
   ],
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Njerschow/openai-api"
+    "url": "https://github.com/sendblue-api/sendblue-node.git"
   },
   "dependencies": {
     "@types/node": "^18.11.7",

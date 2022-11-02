@@ -1,163 +1,56 @@
 # openai-api
 
 ## Overview
-This package is a tiny node wrapper for the openAI API, if you find any issue please feel free to message me or open a PR :).
 
-### A few words from GPT-3 ###
-If you have any ideas on how to improve the library feel free to let me know as well!
-
-You can also visit the Issue tracker for more information or open a new issue.
-
-This project is not affiliated with OpenAI and was written purely out of interest.
+This package is a node.js wrapper for the Sendblue API. It provides a simple interface for sending and receiving messages.
 
 ## Installation
 
-`npm i openai-api`
+`npm i sendblue-node`
 
 ## Usage
 
 ### Initializing
+
 ```js
-const OpenAI = require('openai-api');
+import Sendblue from 'sendblue-node'
 
 // Load your key from an environment variable or secret management service
 // (do not include your key directly in your code)
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const SENDBLUE_API_KEY = process.env.SENDBLUE_API_KEY
+const SENDBLUE_API_SECRET = process.env.SENDBLUE_API_SECRET
 
-const openai = new OpenAI(OPENAI_API_KEY);
+const sendblue = new Sendblue(SENDBLUE_API_KEY, SENDBLUE_API_SECRET)
 ```
 
-### Completion API call
-```js
-(async () => {
-    const gptResponse = await openai.complete({
-        engine: 'davinci',
-        prompt: 'this is a test',
-        maxTokens: 5,
-        temperature: 0.9,
-        topP: 1,
-        presencePenalty: 0,
-        frequencyPenalty: 0,
-        bestOf: 1,
-        n: 1,
-        stream: false,
-        stop: ['\n', "testing"]
-    });
-
-    console.log(gptResponse.data);
-})();
-```
-
-#### Example of a successful completion response:
-```js
-{
-    id: 'some-long-id',
-    object: 'text_completion',
-    created: 1616791508,
-    model: 'davinci:2020-05-03',
-    choices: [
-        {
-          text: " predicted text...",
-          index: 0,
-          logprobs: null,
-          finish_reason: 'length'
-        }
-    ]
-}
-```
-
-### Search API call
+### Send Message API Call
 
 ```js
-(async () => {
-    const gptResponse = await openai.search({
-        engine: 'davinci',
-        documents: ["White House", "hospital", "school"],
-        query: "the president"
-    });
+;(async () => {
+  const response = await sendblue.sendMessage({
+    number: '+19998887777',
+    content: 'Hello world!',
+    send_style: 'invisible',
+    media_url: 'https://source.unsplash.com/random.png',
+    status_callback: 'https://example.com/message-status/1234abcd'
+  })
 
-    console.log(gptResponse.data);
-})();
+  console.log(response)
+})()
 ```
 
-
-### Answers API call
+### Send Group Message API call
 
 ```js
-(async () => {
-    const gptResponse = await openai.answers({
-      "documents": ["Puppy A is happy.", "Puppy B is sad."],
-      "question": "which puppy is happy?",
-      "search_model": "ada",
-      "model": "curie",
-      "examples_context": "In 2017, U.S. life expectancy was 78.6 years.",
-      "examples": [["What is human life expectancy in the United States?", "78 years."]],
-      "max_tokens": 5,
-      "stop": ["\n", "<|endoftext|>"],
-    });
+;(async () => {
+  const response = await sendblue.sendGroupMessage({
+    numbers: ['+19998887777', '+19998887778'],
+    content: 'Hello world!',
+    send_style: 'invisible',
+    media_url: 'https://source.unsplash.com/random.png',
+    status_callback: 'https://example.com/message-status/1234abcd'
+  })
 
-    console.log(gptResponse.data);
-})();
+  console.log(response)
+})()
 ```
-
-### Classification API call
-
-```js
-(async () => {
-  const gptResponse = await openai.classification({
-    "examples": [
-      ["A happy moment", "Positive"],
-      ["I am sad.", "Negative"],
-      ["I am feeling awesome", "Positive"]
-    ],
-    "labels": ["Positive", "Negative", "Neutral"],
-    "query": "It is a raining day :(",
-    "search_model": "ada",
-    "model": "curie"
-  });
-
-  console.log(gptResponse.data);
-})();
-```
-
-### Engines API call
-
-```js
-(async () => {
-    const gptResponse = await openai.engines();
-
-    console.log(gptResponse.data);
-})();
-```
-
-### Embeddings API call
-Documentation: [https://beta.openai.com/docs/api-reference/embeddings](https://beta.openai.com/docs/api-reference/embeddings)
-
-```js
-(async () => {
-  const gptResponse = await openai.embeddings({
-    "engine": "text-similarity-babbage-001",
-    "input": [
-      "A happy moment",
-      "I am sad.",
-      "I am feeling awesome"
-    ],
-  });
-
-  console.log(gptResponse.data); // see index.d.ts interface Embedding
-})();
-```
-
-
-### Get number of tokens for string
-#### Not supported as of 4/21. See issue #20
-The token limit is 2048 for completions using the OpenAI API. This method allows you to get the number of tokens in your prompt. This is done offline (no API call is made).
-
-```js
-openai.encode('This is an encoding test. Number of tokens is not necessarily the same as word count.').then((result) => {
-     console.log("Number of tokens for string:" + result.length);
- });
-```
-
--------
-Powered by [Obelisk.ooo](https://obelisk.ooo)
