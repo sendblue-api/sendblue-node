@@ -1,0 +1,44 @@
+{
+  "name": "sendblue-node",
+  "version": "0.1.0",
+  "description": "A tiny client module for the Sendblue API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build",
+    "build": "tsc",
+    "test": "mocha --use_strict"
+  },
+  "keywords": [
+    "api",
+    "sms",
+    "imessage",
+    "node",
+    "imessage api",
+    "sms api",
+    "sendblue",
+    "sendblue api",
+    "sendblue-node"
+  ],
+  "author": "Nikita Jerschow",
+  "contributors": [
+    {
+      "url": "https://github.com/Njerschow"
+    }
+  ],
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Njerschow/openai-api"
+  },
+  "dependencies": {
+    "@types/node": "^18.11.7",
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^8.3.2",
+    "typescript": "^4.8.4"
+  }
+}
