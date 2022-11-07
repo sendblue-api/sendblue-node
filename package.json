@@ -6,6 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "prepublish": "npm run build",
+    "deploy": "npm version patch && npm run build && npm publish",
     "build": "tsc",
     "test": "mocha --use_strict"
   },
