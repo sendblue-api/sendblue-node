@@ -10,7 +10,7 @@ You will need to get API keys by signing up for a Sendblue account. You can do s
 
 ## Installation
 
-`npm i sendblue-node`
+`npm i sendblue`
 
 ## Usage
 
