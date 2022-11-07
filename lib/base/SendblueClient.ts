@@ -21,7 +21,7 @@ export class SendblueClient {
   constructor (
     apiKey: string,
     apiSecret: string,
-    options: SendblueClientOptions
+    options: SendblueClientOptions = {}
   ) {
     if (options.logLevel !== options?.axiosClientOptions?.logLevel) {
       if (!options.axiosClientOptions) options.axiosClientOptions = {}
