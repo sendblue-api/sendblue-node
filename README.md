@@ -17,7 +17,7 @@ You will need to get API keys by signing up for a Sendblue account. You can do s
 ### Initializing
 
 ```js
-import Sendblue from 'sendblue-node'
+import Sendblue from 'sendblue'
 
 // Load your key from an environment variable or secret management service
 // (do not include your key directly in your code)
@@ -35,7 +35,7 @@ const sendblue = new Sendblue(SENDBLUE_API_KEY, SENDBLUE_API_SECRET)
     number: '+19998887777',
     content: 'Hello world!',
     send_style: 'invisible',
-    media_url: 'https://source.unsplash.com/random.png',
+    media_url: 'https://picsum.photos/200/300.jpg',
     status_callback: 'https://example.com/message-status/1234abcd'
   })
 
@@ -51,7 +51,7 @@ const sendblue = new Sendblue(SENDBLUE_API_KEY, SENDBLUE_API_SECRET)
     numbers: ['+19998887777', '+19998887778'],
     content: 'Hello world!',
     send_style: 'invisible',
-    media_url: 'https://source.unsplash.com/random.png',
+    media_url: 'https://picsum.photos/200/300.jpg',
     status_callback: 'https://example.com/message-status/1234abcd'
   })
 
