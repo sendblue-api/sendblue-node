@@ -1,12 +1,12 @@
 {
   "name": "sendblue",
   "type": "module",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.4",
+  "description": "This package is a Node.js wrapper for the Sendblue API. It provides a simple interface for sending and receiving messages.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "contributors": ["Elliott Storey", "Nikita Jerschow"],
-  "license": "ISC"
+  "license": "MIT"
 }
