@@ -1,80 +1,96 @@
 export default class Sendblue {
     constructor(apiKey, apiSecret) {
-        this.baseUrl = 'https://api.sendblue.co/api';
+        this.baseUrl = 'https://api.sendblue.co';
         this.headers = {
             'sb-api-key-id': apiKey,
             'sb-api-secret-key': apiSecret,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         };
     }
 
-    async sendMessage(number, content, sendStyle, mediaUrl, statusCallback) {
-        const data = {
-            number: number,
-            content: content,
-            send_style: sendStyle,
-            media_url: mediaUrl,
-            status_callback: statusCallback
-        };
-        let response = await fetch(`${this.baseUrl}/send-message`, {
-            headers: this.headers,
-            method: 'POST',
-            body: JSON.stringify(data)
+    async request(method, endpoint, data = null) {
+        const url = this.baseUrl + endpoint;
+        const response = await fetch(url, {
+            method: method.toUpperCase(),
+            body: data ? JSON.stringify(data) : null,
+            headers: this.headers
         });
-        response = await response.json();
-        if (!response.ok) {
-            throw new Error(response.message)
+        
+        try {
+            response.ok ? response.json() : Promise.reject(response);
+        } catch (err) {
+            const errorText = await response.text();
+            console.error(err, errorText);
+            throw err;
         }
-        return await response.json();
     }
 
-    async sendGroupMessage(numbers, content, groupId, sendStyle, mediaUrl, statusCallback) {
+    async sendMessage(number, content, sendStyle = null, mediaUrl = null, statusCallback = null) {
         const data = {
-            numbers: numbers,
-            group_id: groupId,
-            content: content,
+            number,
+            content,
             send_style: sendStyle,
             media_url: mediaUrl,
             status_callback: statusCallback
         };
-        const response = await fetch(`${this.baseUrl}/send-group-message`, {
-            headers: this.headers,
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        return await response.json();
+        return this.request('post', '/api/send-message', data);
+    }
+
+    async sendGroupMessage(numbers, content, groupId = null, sendStyle = null, mediaUrl = null, statusCallback = null) {
+        const data = {
+            numbers,
+            group_id: groupId,
+            content,
+            send_style: sendStyle,
+            media_url: mediaUrl,
+            status_callback: statusCallback
+        };
+        return this.request('post', '/api/send-group-message', data);
+    }
+
+    async getMessage(messageId) {
+        return this.request('get', `/api/message/${messageId}`);
     }
 
     async modifyGroup(groupId, modifyType, number) {
         const data = {
             group_id: groupId,
             modify_type: modifyType,
-            number: number
+            number
         };
-        const response = await fetch(`${this.baseUrl}/modify-group`, {
-            headers: this.headers,
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        return await response.json();
+        return this.request('post', '/modify-group', data);
     }
 
     async lookup(number) {
-        const response = await fetch(`${this.baseUrl}/evaluate-service?number=${number}`, {
-            headers: this.headers
-        });
-        return await response.json();
+        return this.request('get', `/api/evaluate-service?number=${number}`);
     }
 
     async sendTypingIndicator(number) {
         const data = {
-            number: number
+            number
         };
-        const response = await fetch(`${this.baseUrl}/send-typing-indicator?number=${number}`, {
-            headers: this.headers,
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        return await response.json();
+        return this.request('post', `/api/send-typing-indicator?number=${number}`, data);
+    }
+
+    async getContacts() {
+        return this.request('get', '/accounts/contacts');
+    }
+
+    async createContact(number, firstName = null, lastName = null, companyName = null) {
+        const data = {
+            number,
+            firstName,
+            lastName,
+            companyName
+        };
+        return this.request('post', '/accounts/contacts', data);
+    }
+
+    async deleteContact(contactId) {
+        return this.request('delete', `/accounts/contacts/${contactId}`);
+    }
+
+    async getMessages(contactId) {
+        return this.request('get', `/accounts/messages?cid=${contactId}`);
     }
 }
