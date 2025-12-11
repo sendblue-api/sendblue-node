@@ -2,6 +2,7 @@
 
 > [!WARNING]
 > This repository has been deprecated in favor of [sendblue-ts](https://github.com/sendblue-api/sendblue-ts)
+>
 > npm package here: https://www.npmjs.com/package/sendblue
 
 ## Overview
