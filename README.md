@@ -1,5 +1,9 @@
 # Sendblue Node.js Library
 
+> [!WARNING]
+> This repository has been deprecated in favor of [sendblue-ts](https://github.com/sendblue-api/sendblue-ts)
+> npm package here: https://www.npmjs.com/package/sendblue
+
 ## Overview
 
 This package is a Node.js wrapper for the Sendblue API. It provides a simple interface for sending and receiving messages.
